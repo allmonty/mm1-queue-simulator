@@ -390,23 +390,23 @@ var calculateAverages = function(){
 }
 
 
-var main = function(){
+// var main = function(){
 
-	while(totalTime < simulationTime){
-		nextEventCenario2();
-	}
+// 	while(totalTime < simulationTime){
+// 		nextEventCenario2();
+// 	}
 
-	// while(totalTime < simulationTime){
-	// 	nextEvent();
-	// }
+// 	// while(totalTime < simulationTime){
+// 	// 	nextEvent();
+// 	// }
 
-	calculateAverages();
+// 	calculateAverages();
 
-	// console.log("Array Arrivals: ", arrayArrivals);
-	// console.log("Array Services: ", arrayServices);
-	// console.log("Array ArrivalsA: ", arrayArrivalsA);
-	// console.log("Array ServicesA: ", arrayServicesA);
-	// console.log("Array ArrivalsB: ", arrayArrivalsB);
-	// console.log("Array ServicesB: ", arrayServicesB);
-}
-main();
+// 	// console.log("Array Arrivals: ", arrayArrivals);
+// 	// console.log("Array Services: ", arrayServices);
+// 	// console.log("Array ArrivalsA: ", arrayArrivalsA);
+// 	// console.log("Array ServicesA: ", arrayServicesA);
+// 	// console.log("Array ArrivalsB: ", arrayArrivalsB);
+// 	// console.log("Array ServicesB: ", arrayServicesB);
+// }
+// main();
