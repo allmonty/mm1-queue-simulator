@@ -1,16 +1,17 @@
 //Taxas de chegada e serviços dos clientes
 var LAMBDA1 = 1/5;
 var LAMBDA2 = 1/5;
-var MU1 = 1;
-var MU2 = 1;
-
+var MU1 	= 1;
+var MU2 	= 1;
 
 //Variaveis nescessárias para rodar a simulação
-var nextClient = 0;
-var currentClient = 0;
-var arrivalTime = 0;
-var serviceTime = 0;
-var totalTime = 0;
+var nextClient 		= 0;
+var currentClient 	= 0;
+
+var arrivalTime 	= 0;
+var serviceTime 	= 0;
+
+var totalTime 		= 0;
 
 //Tempo total que da simulação 
 const simulationTime = 100000;
@@ -19,16 +20,16 @@ const CLIENT_TYPE_0 = 0;
 const CLIENT_TYPE_1 = 1;	
 
 //Arrays que guardam os tempos de chegada e saída dos clientes do sistema
-var arrayArrivals=[];
-var arrayServices=[];
-var arrayArrivalsA=[];
-var arrayServicesA=[];
-var arrayArrivalsB=[];
-var arrayServicesB=[];
+var arrayArrivals 	= [];
+var arrayServices 	= [];
+var arrayArrivalsA 	= [];
+var arrayServicesA 	= [];
+var arrayArrivalsB 	= [];
+var arrayServicesB 	= [];
 
 //Array que guarda os tempos de serviços residuais do servidor quando um cliente chega no sistema 
-var arrayResidualServicesA=[];
-var arrayResidualServicesB=[];
+var arrayResidualServicesA 	= [];
+var arrayResidualServicesB 	= [];
 
 //Array das filas (no caso FCFS sem distinção de classe só é utilizada a queueA)
 var queueA = [];
@@ -39,11 +40,11 @@ var ServiceTimesA = [];
 var ServiceTimesB = [];
 
 //Array que guarda o inicio e o fim dos períodos ocupados
-var startOfBusyPeriod=[];
-var endOfBusyPeriod=[];
+var startOfBusyPeriod 	= [];
+var endOfBusyPeriod 	= [];
 
 //Array que guarda quantas pessoas se encontram no sistema a cada chegada
-var numberOfClientsInQueue=[];
+var numberOfClientsInQueue 	= [];
 
 var nextClientType = function(){
 
@@ -109,8 +110,6 @@ var nextEvent = function(){
 			arrayResidualServicesB.push(0);
     	}
 
-    	//arrayArrivals.push(totalTime + nextArrival);
-    	//arrayResidualServicesA.push(0);
     	if (nextClientType() == CLIENT_TYPE_0) {
     		arrivalTime = nextPoisson(LAMBDA1 + LAMBDA2);
     		totalTime += nextArrival;
@@ -134,8 +133,7 @@ var nextEvent = function(){
 				arrayArrivalsB.push(totalTime + nextArrival);
 				arrayResidualServicesB.push(nextService - nextArrival);
     		}
-    		//arrayArrivals.push(totalTime + nextArrival);
-    		//arrayResidualServicesA.push(nextService - nextArrival);
+
     		arrivalTime = 0;
     		totalTime += nextArrival;
     		serviceTime = nextService - nextArrival;
@@ -149,7 +147,7 @@ var nextEvent = function(){
 			}
 
     		queueA.splice(0, 1);
-    		//arrayServices.push(totalTime + nextService);
+
     		serviceTime = 0;
     		arrivalTime = nextArrival - nextService;
     		totalTime += nextService;
@@ -284,8 +282,7 @@ var calculateAverages = function(){
     T1 = T1/arrayServicesA.length;
 
     //Tempo médio dos clientes tipo 1 no sistema
-	console.log("E[T1]");
-	console.log(T1);
+	console.log("E[T1]", T1);
 
     for(var i = 0; i< arrayServicesB.length ; i++){
      	T2 += (arrayServicesB[i]  - arrayArrivalsB[i]);
@@ -296,14 +293,10 @@ var calculateAverages = function(){
     T = T/(arrayServicesA.length + arrayResidualServicesB.length);
 
     //Tempo médio dos clientes tipo 2 no sistema
-	console.log("E[T2]");
-	console.log(T2);
-
+	console.log("E[T2]", T2);
 
 	//Tempo médio dos clientes no sistema
-	console.log("E[T]");
-	console.log(T);
-
+	console.log("E[T]", T);
 
 	var W = 0;
 	var W1 = 0;
@@ -323,15 +316,9 @@ var calculateAverages = function(){
     W1 = W1/(arrayServicesA.length);
     W2 = W2/(arrayServicesB.length);
 
-	console.log("E[W1]");
-	console.log(W1);
-
-	console.log("E[W2]");
-	console.log(W2);
-
-	console.log("E[W]");
-	console.log(W);
-
+	console.log("E[W1]", W1);
+	console.log("E[W2]", W2);
+	console.log("E[W]", W);
 
 	var Xr = 0;
 	var Xr1 = 0;
@@ -342,23 +329,17 @@ var calculateAverages = function(){
     }
     Xr1 = Xr/(arrayResidualServicesA.length);
 
-
     for(var i = 0; i< arrayResidualServicesB.length ; i++){
      	Xr += (arrayResidualServicesB[i]);
      	Xr2 += (arrayResidualServicesB[i]);
     }
     Xr2 = Xr2/(arrayResidualServicesB.length);
+
     Xr = Xr/(arrayResidualServicesA.length + arrayResidualServicesB.length);
 
-	console.log("E[Xr1]");
-	console.log(Xr1);
-
-	console.log("E[Xr2]");
-	console.log(Xr2);
-
-	console.log("E[Xr]");
-	console.log(Xr);
-
+	console.log("E[Xr1]", Xr1);
+	console.log("E[Xr2]", Xr2);
+	console.log("E[Xr]", Xr);
 
 	var X = 0;
 	var X1 = 0;
@@ -377,16 +358,9 @@ var calculateAverages = function(){
 
     X = X/(ServiceTimesA.length + ServiceTimesB.length);
 
-
-	console.log("E[X1]");
-	console.log(X1);
-
-	console.log("E[X2]");
-	console.log(X2);
-
-	console.log("E[X]");
-	console.log(X);
-
+	console.log("E[X1]", X1);
+	console.log("E[X2]", X2);
+	console.log("E[X]", X);
 
 	var U = 0;
     for(var i = 0; i< numberOfClientsInQueue.length ; i++){
@@ -394,8 +368,7 @@ var calculateAverages = function(){
     }
     U = U/numberOfClientsInQueue.length;
 
-	console.log("E[U]");
-	console.log(U);
+	console.log("E[U]", U);
 
 	var B = 0;
 
@@ -404,9 +377,7 @@ var calculateAverages = function(){
     }
     B = B/endOfBusyPeriod.length;
 
-	console.log("E[B]");
-	console.log(B);
-
+	console.log("E[B]", B);
 
 	var N = 0;
 
@@ -415,24 +386,27 @@ var calculateAverages = function(){
     }
     N = N/numberOfClientsInQueue.length;
 
-	console.log("E[N]");
-	console.log(N);
-
+	console.log("E[N]", N);
 }
 
 
 var main = function(){
 
-//	while(totalTime < simulationTime){
-//		nextEventCenario2();
-//	}
-//	calculateAveragesCenario2();
-
 	while(totalTime < simulationTime){
-		nextEvent();
+		nextEventCenario2();
 	}
+
+	// while(totalTime < simulationTime){
+	// 	nextEvent();
+	// }
+
 	calculateAverages();
 
-
+	// console.log("Array Arrivals: ", arrayArrivals);
+	// console.log("Array Services: ", arrayServices);
+	// console.log("Array ArrivalsA: ", arrayArrivalsA);
+	// console.log("Array ServicesA: ", arrayServicesA);
+	// console.log("Array ArrivalsB: ", arrayArrivalsB);
+	// console.log("Array ServicesB: ", arrayServicesB);
 }
 main();
