@@ -46,6 +46,24 @@ var endOfBusyPeriod 	= [];
 //Array que guarda quantas pessoas se encontram no sistema a cada chegada
 var numberOfClientsInQueue 	= [];
 
+var metrics = {
+	T : 0.0,
+	T1: 0.0,
+	T2: 0.0,
+	W: 0.0,
+	W1: 0.0,
+	W2: 0.0,
+	Xr: 0.0,
+	Xr1: 0.0,
+	Xr2: 0.0,
+	X: 0.0,
+	X1: 0.0,
+	X2: 0.0,
+	U: 0.0,
+	B: 0.0,
+	N: 0.0
+}
+
 var nextClientType = function(){
 
 	var rand = Math.random();
@@ -62,7 +80,7 @@ var nextPoisson = function(rate){
 	return -Math.log(1.0 - Math.random()) / rate;
 }
 
-var nextEvent = function(){
+var nextEventScenario1 = function(){
 
 	var nextArrival = arrivalTime;
     var nextService = serviceTime;
@@ -164,7 +182,7 @@ var nextEvent = function(){
 //###################################################################
 
 
-var nextEventCenario2 = function(){
+var nextEventScenario2 = function(){
 
 	var nextArrival = arrivalTime;
     var nextService = serviceTime;
@@ -271,142 +289,134 @@ var nextEventCenario2 = function(){
 
 var calculateAverages = function(){
 
-	var T = 0;
-    var T1 = 0;
-    var T2 = 0;
+	metrics.T = 0;
+    metrics.T1 = 0;
+    metrics.T2 = 0;
 
     for(var i = 0; i< arrayServicesA.length ; i++){
-     	T1 += (arrayServicesA[i]  - arrayArrivalsA[i]);
+     	metrics.T1 += (arrayServicesA[i]  - arrayArrivalsA[i]);
     }
-    T = T1;
-    T1 = T1/arrayServicesA.length;
+    metrics.T = metrics.T1;
+    metrics.T1 = metrics.T1/arrayServicesA.length;
 
     //Tempo médio dos clientes tipo 1 no sistema
-	console.log("E[T1]", T1);
+	console.log("E[T1]", metrics.T1);
 
     for(var i = 0; i< arrayServicesB.length ; i++){
-     	T2 += (arrayServicesB[i]  - arrayArrivalsB[i]);
+     	metrics.T2 += (arrayServicesB[i]  - arrayArrivalsB[i]);
     }
-    T += T2;
-    T2 = T2/arrayServicesB.length;
+    metrics.T += metrics.T2;
+    metrics.T2 = metrics.T2/arrayServicesB.length;
 
-    T = T/(arrayServicesA.length + arrayResidualServicesB.length);
+    metrics.T = metrics.T/(arrayServicesA.length + arrayResidualServicesB.length);
 
     //Tempo médio dos clientes tipo 2 no sistema
-	console.log("E[T2]", T2);
+	console.log("E[T2]", metrics.T2);
 
 	//Tempo médio dos clientes no sistema
-	console.log("E[T]", T);
+	console.log("E[T]", metrics.T);
 
-	var W = 0;
-	var W1 = 0;
-	var W2 = 0;
+	metrics.W = 0;
+	metrics.W1 = 0;
+	metrics.W2 = 0;
 
 	for(var i = 0; i< arrayServicesA.length; i++){
-     	W1 += (arrayServicesA[i]  - (arrayArrivalsA[i] + ServiceTimesA[i]));
+     	metrics.W1 += (arrayServicesA[i]  - (arrayArrivalsA[i] + ServiceTimesA[i]));
     }
-    W = W1;
+    metrics.W = metrics.W1;
 
     for(var i = 0; i< arrayServicesB.length ; i++){
-     	W2 += (arrayServicesB[i]  - (arrayArrivalsB[i] + ServiceTimesB[i]));
+     	metrics.W2 += (arrayServicesB[i]  - (arrayArrivalsB[i] + ServiceTimesB[i]));
     }
-    W += W2;
+    metrics.W += metrics.W2;
 
-    W = W/(arrayServicesA.length + arrayServicesB.length);
-    W1 = W1/(arrayServicesA.length);
-    W2 = W2/(arrayServicesB.length);
+    metrics.W = metrics.W/(arrayServicesA.length + arrayServicesB.length);
+    metrics.W1 = metrics.W1/(arrayServicesA.length);
+    metrics.W2 = metrics.W2/(arrayServicesB.length);
 
-	console.log("E[W1]", W1);
-	console.log("E[W2]", W2);
-	console.log("E[W]", W);
+	console.log("E[W1]", metrics.W1);
+	console.log("E[W2]", metrics.W2);
+	console.log("E[W]", metrics.W);
 
-	var Xr = 0;
-	var Xr1 = 0;
-	var Xr2 = 0;
+	metrics.Xr = 0;
+	metrics.Xr1 = 0;
+	metrics.Xr2 = 0;
 
 	for(var i = 0; i< arrayResidualServicesA.length ; i++){
-     	Xr += (arrayResidualServicesA[i]);
+     	metrics.Xr += (arrayResidualServicesA[i]);
     }
-    Xr1 = Xr/(arrayResidualServicesA.length);
+    metrics.Xr1 = metrics.Xr/(arrayResidualServicesA.length);
 
     for(var i = 0; i< arrayResidualServicesB.length ; i++){
-     	Xr += (arrayResidualServicesB[i]);
-     	Xr2 += (arrayResidualServicesB[i]);
+     	metrics.Xr += (arrayResidualServicesB[i]);
+     	metrics.Xr2 += (arrayResidualServicesB[i]);
     }
-    Xr2 = Xr2/(arrayResidualServicesB.length);
+    metrics.Xr2 = metrics.Xr2/(arrayResidualServicesB.length);
 
-    Xr = Xr/(arrayResidualServicesA.length + arrayResidualServicesB.length);
+    metrics.Xr = metrics.Xr/(arrayResidualServicesA.length + arrayResidualServicesB.length);
 
-	console.log("E[Xr1]", Xr1);
-	console.log("E[Xr2]", Xr2);
-	console.log("E[Xr]", Xr);
+	console.log("E[Xr1]", metrics.Xr1);
+	console.log("E[Xr2]", metrics.Xr2);
+	console.log("E[Xr]", metrics.Xr);
 
-	var X = 0;
-	var X1 = 0;
-	var X2 = 0;
+	metrics.X = 0;
+	metrics.X1 = 0;
+	metrics.X2 = 0;
 
 	for(var i = 0; i< ServiceTimesA.length ; i++){
-     	X += ServiceTimesA[i];
+     	metrics.X += ServiceTimesA[i];
     }
-    X1 = X/(ServiceTimesA.length);
+    metrics.X1 = metrics.X/(ServiceTimesA.length);
 
 	for(var i = 0; i< ServiceTimesB.length ; i++){
-     	X 	+= ServiceTimesB[i];
-     	X2 	+= ServiceTimesB[i];
+     	metrics.X 	+= ServiceTimesB[i];
+     	metrics.X2 	+= ServiceTimesB[i];
     }
-    X2 = X2/ServiceTimesB.length;
+    metrics.X2 = metrics.X2/ServiceTimesB.length;
 
-    X = X/(ServiceTimesA.length + ServiceTimesB.length);
+    metrics.X = metrics.X/(ServiceTimesA.length + ServiceTimesB.length);
 
-	console.log("E[X1]", X1);
-	console.log("E[X2]", X2);
-	console.log("E[X]", X);
+	console.log("E[X1]", metrics.X1);
+	console.log("E[X2]", metrics.X2);
+	console.log("E[X]", metrics.X);
 
-	var U = 0;
+	metrics.U = 0;
     for(var i = 0; i< numberOfClientsInQueue.length ; i++){
-     	U += (numberOfClientsInQueue[i] * X);
+     	metrics.U += (numberOfClientsInQueue[i] * metrics.X);
     }
-    U = U/numberOfClientsInQueue.length;
+    metrics.U = metrics.U/numberOfClientsInQueue.length;
 
-	console.log("E[U]", U);
+	console.log("E[U]", metrics.U);
 
-	var B = 0;
+	metrics.B = 0;
 
 	for(var i = 0; i< endOfBusyPeriod.length ; i++){
-     	B += endOfBusyPeriod[i] - startOfBusyPeriod[i];
+     	metrics.B += endOfBusyPeriod[i] - startOfBusyPeriod[i];
     }
-    B = B/endOfBusyPeriod.length;
+    metrics.B = metrics.B/endOfBusyPeriod.length;
 
-	console.log("E[B]", B);
+	console.log("E[B]", metrics.B);
 
-	var N = 0;
+	metrics.N = 0;
 
 	for(var i = 0; i< numberOfClientsInQueue.length ; i++){
-     	N += numberOfClientsInQueue[i];
+     	metrics.N += numberOfClientsInQueue[i];
     }
-    N = N/numberOfClientsInQueue.length;
+    metrics.N = metrics.N/numberOfClientsInQueue.length;
 
-	console.log("E[N]", N);
+	console.log("E[N]", metrics.N);
 }
 
+var startScenario1 = function(){
+	while(totalTime < simulationTime){
+		nextEventScenario1();
+	}
+	calculateAverages();
+}
 
-// var main = function(){
-
-// 	while(totalTime < simulationTime){
-// 		nextEventCenario2();
-// 	}
-
-// 	// while(totalTime < simulationTime){
-// 	// 	nextEvent();
-// 	// }
-
-// 	calculateAverages();
-
-// 	// console.log("Array Arrivals: ", arrayArrivals);
-// 	// console.log("Array Services: ", arrayServices);
-// 	// console.log("Array ArrivalsA: ", arrayArrivalsA);
-// 	// console.log("Array ServicesA: ", arrayServicesA);
-// 	// console.log("Array ArrivalsB: ", arrayArrivalsB);
-// 	// console.log("Array ServicesB: ", arrayServicesB);
-// }
-// main();
+var startScenario2 = function(){
+	while(totalTime < simulationTime){
+		nextEventScenario2();
+	}
+	calculateAverages();
+}

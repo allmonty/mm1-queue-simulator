@@ -2,6 +2,7 @@
 
 <head>
 	<meta charset="UTF-8">
+    <title>M/M/1 Simulator</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 
     <!--JQUERY-->
@@ -45,43 +46,59 @@
 					</div>
 				</div>
 				<div class="row s12">
-					<div class="row">
-						<div class="col s6">
-						<button class="waves-effect waves-light btn col s12" id='policy1'>FCFS sem distinção</button><br/>
-						</div>
-						<div class="col s6">
-						<button class="waves-effect waves-light btn col s12" id='policy2'>LCFS sem preempção sem distinção de classes</button><br/>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col s6">
-						<button class="waves-effect waves-light btn col s12" id='policy3'>LCFS com preempção e sem distinção de classes</button><br/>
-						</div>
-						<div class="col s6">
-						<button class="waves-effect waves-light btn col s12" id='policy4'>FCFS sem preempção e com classe 1 prioritária</button><br/>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col s6">
-						<button class="waves-effect waves-light btn col s12" id='policy5'>FCFS com preempção e com classe 1 prioritária</button><br/>
-						</div>
-					</div>
+                    <div class="col s6">
+                        <div class="input-field row s12">
+                            <select id="policy-select">
+                                <option value="1">FCFS Sem Prioridade</option>
+                                <option value="2">FCFS Com Prioridade</option>
+                            </select>
+                            <label>Política da Fila</label>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="col s12">
+                            <button class="waves-effect waves-light btn col s12" id='start-button'>Start</button><br/><br/>
+                        </div>
+				    </div>
 				</div>
 			</div>
 			<div class="col s6">
 				<div class="row s12">
-					<div class="collection">
-						<div class="collection-item">Tempo no Sistema | E[T]<a class="secondary-content" id='avg-system-time'>0.0</a></div>
-						<div class="collection-item">Tempo na Fila | E[W] <a class="secondary-content" id='avg-wait-time'>0.0</a></div>
-						<div class="collection-item">Trabalho Pendente | E[U] <a class="secondary-content" id='avg-pending-service'>0.0</a></div>
-						<div class="collection-item">Número de Clientes | E[N] <a class="secondary-content" id='avg-busy-time'>0.0</a></div>
-						<div class="collection-item">Período Ocupado | E[B] <a class="secondary-content" id='avg-clients-queue'>0.0</a></div>
-					</div>
-				</div>
-				<div class="row s12">
-					<div class="col s12">
-						<button class="waves-effect waves-light btn col s12" id='start-button'>Start</button><br/><br/>
-					</div>
+					<ul class="collection collapsible" data-collapsible="accordion">
+                        <li>
+						    <div class="collection-item collapsible-header">Tempo no Sistema | E[T] <a class="secondary-content" id='avg-system-time'>0.0</a></div>
+						    <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Tempo no Sistema | E[T1] <a class="secondary-content" id='avg-system-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo no Sistema | E[T2] <a class="secondary-content" id='avg-system-time-2'>0.0</a></div>
+						    </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Tempo na Fila | E[W] <a class="secondary-content" id='avg-wait-time'>0.0</a></div>
+                            <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Tempo na Fila | E[W1] <a class="secondary-content" id='avg-wait-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo na Fila | E[W2] <a class="secondary-content" id='avg-wait-time-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Tempo na Fila | E[Xr] <a class="secondary-content" id='avg-residual-time'>0.0</a></div>
+                            <div class="collapsible-body">
+						        <div class="collection-item teal lighten-5">Tempo na Fila | E[Xr1] <a class="secondary-content" id='avg-residual-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo na Fila | E[Xr2] <a class="secondary-content" id='avg-residual-time-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Tempo na Fila | E[X] <a class="secondary-content" id='avg-service'>0.0</a></div>
+                            <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Tempo na Fila | E[X1] <a class="secondary-content" id='avg-service-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo na Fila | E[X2] <a class="secondary-content" id='avg-service-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item">Trabalho Pendente | E[U] <a class="secondary-content" id='avg-pending-service'>0.0</a></div>
+						    <div class="collection-item">Período Ocupado | E[B] <a class="secondary-content" id='avg-busy-time'>0.0</a></div>
+						    <div class="collection-item">Número de Clientes | E[N] <a class="secondary-content" id='avg-clients-queue'>0.0</a></div>
+                        </li>
+                    </ul>
 				</div>
 			</div>
 		</div>

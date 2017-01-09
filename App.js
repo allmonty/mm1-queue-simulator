@@ -1,64 +1,60 @@
 var queue = new QueueSimulator();
 
+var init = function()
+{
+	//Start the policy selection menu with JQuery
+	$(document).ready(function() {
+    	$('select').material_select();
+		$('.collapsible').collapsible();
+  	});
+}
+init();
+
+var startWithPolicy = function(value)
+{
+	switch(value){
+		case '1':
+			startScenario1();
+			break;
+		case '2':
+			startScenario2();
+		default:
+			break;
+	}
+}
+
 const startButton = document.querySelector('#start-button');
 startButton.onclick = function() {
-	queue.start();
+	
+	LAMBDA1 = eval($('#lambda-1').val());
+	LAMBDA2 = eval($('#lambda-2').val());
+	MU1 	= eval($('#mu-1').val());
+	MU2 	= eval($('#mu-2').val());
+
+	startWithPolicy( $('#policy-select').val() );
+
+	updateMetricsView();
 }
 
-const policy1 = document.querySelector('#policy1');
-policy1.onclick = function() {
-	queue.type = QUEUE_POLICY.FCFS;
-	queue.isPreemptive = false;
-	queue.hasPriority  = false;
+var updateMetricsView = function(){
+	$('#avg-system-time').html((metrics.T).toFixed(3));
+	$('#avg-system-time-1').html((metrics.T1).toFixed(3));
+	$('#avg-system-time-2').html((metrics.T2).toFixed(3));
+	$('#avg-wait-time').html((metrics.W).toFixed(3));
+	$('#avg-wait-time-1').html((metrics.W1).toFixed(3));
+	$('#avg-wait-time-2').html((metrics.W2).toFixed(3));
+	$('#avg-residual-time').html((metrics.Xr).toFixed(3));
+	$('#avg-residual-time-1').html((metrics.Xr1).toFixed(3));
+	$('#avg-residual-time-2').html((metrics.Xr2).toFixed(3));
+	$('#avg-service').html((metrics.X).toFixed(3));
+	$('#avg-service-1').html((metrics.X1).toFixed(3));
+	$('#avg-service-2').html((metrics.X2).toFixed(3));
+	$('#avg-pending-service').html((metrics.U).toFixed(3));
+	$('#avg-busy-time').html((metrics.B).toFixed(3));
+	$('#avg-clients-queue').html((metrics.N).toFixed(3));
 }
 
-const policy2 = document.querySelector('#policy2');
-policy2.onclick = function() {
-	queue.type = QUEUE_POLICY.LCFS;
-	queue.isPreemptive = false;
-	queue.hasPriority  = false;
-}
 
-const policy3 = document.querySelector('#policy3');
-policy3.onclick = function() {
-	queue.type = QUEUE_POLICY.LCFS;
-	queue.isPreemptive = true;
-	queue.hasPriority  = false;
-}
-
-const policy4 = document.querySelector('#policy4');
-policy4.onclick = function() {
-	queue.type = QUEUE_POLICY.FCFS;
-	queue.isPreemptive = false;
-	queue.hasPriority  = true;
-}
-
-const policy5 = document.querySelector('#policy5');
-policy5.onclick = function() {
-	queue.type = QUEUE_POLICY.FCFS;
-	queue.isPreemptive = true;
-	queue.hasPriority  = true;
-}
-
-const lambda1 = document.querySelector('#lambda-1');
-lambda1.onchange = function() {
-	queue.classAArrivalTime = eval(lambda1.value);
-}
-
-const lambda2 = document.querySelector('#lambda-2');
-lambda2.onchange = function() {
-	queue.classBArrivalTime = eval(lambda2.value);
-}
-
-const mu1 = document.querySelector('#mu-1');
-mu1.onchange = function() {
-	queue.classAServiceTime = eval(mu1.value);
-}
-
-const mu2 = document.querySelector('#mu-2');
-mu2.onchange = function() {
-	queue.classBServiceTime = eval(mu2.value);
-}
 
 
 
