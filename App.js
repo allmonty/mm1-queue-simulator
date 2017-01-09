@@ -44,10 +44,11 @@ var updateMetricsView = function(){
 const startButton = document.querySelector('#start-button');
 startButton.onclick = function() {
 	
-	LAMBDA1 = eval($('#lambda-1').val());
-	LAMBDA2 = eval($('#lambda-2').val());
-	MU1 	= eval($('#mu-1').val());
-	MU2 	= eval($('#mu-2').val());
+	simulationTime 	= eval($('#total-time').val());
+	LAMBDA1 		= eval($('#lambda-1').val());
+	LAMBDA2 		= eval($('#lambda-2').val());
+	MU1 			= eval($('#mu-1').val());
+	MU2 			= eval($('#mu-2').val());
 
 	startWithPolicy( $('#policy-select').val() );
 
