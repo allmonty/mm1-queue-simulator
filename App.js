@@ -23,6 +23,24 @@ var startWithPolicy = function(value)
 	}
 }
 
+var updateMetricsView = function(){
+	$('#avg-system-time'	).html(	(metrics.T   || 0).toFixed(3) );
+	$('#avg-system-time-1'	).html(	(metrics.T1  || 0).toFixed(3) );
+	$('#avg-system-time-2'	).html(	(metrics.T2  || 0).toFixed(3) );
+	$('#avg-wait-time'		).html(	(metrics.W   || 0).toFixed(3) );
+	$('#avg-wait-time-1'	).html(	(metrics.W1  || 0).toFixed(3) );
+	$('#avg-wait-time-2'	).html(	(metrics.W2  || 0).toFixed(3) );
+	$('#avg-residual-time'	).html(	(metrics.Xr  || 0).toFixed(3) );
+	$('#avg-residual-time-1').html(	(metrics.Xr1 || 0).toFixed(3) );
+	$('#avg-residual-time-2').html(	(metrics.Xr2 || 0).toFixed(3) );
+	$('#avg-service'		).html(	(metrics.X   || 0).toFixed(3) );
+	$('#avg-service-1'		).html(	(metrics.X1  || 0).toFixed(3) );
+	$('#avg-service-2'		).html(	(metrics.X2  || 0).toFixed(3) );
+	$('#avg-pending-service').html(	(metrics.U   || 0).toFixed(3) );
+	$('#avg-busy-time'		).html(	(metrics.B   || 0).toFixed(3) );
+	$('#avg-clients-queue'	).html(	(metrics.N   || 0).toFixed(3) );
+}
+
 const startButton = document.querySelector('#start-button');
 startButton.onclick = function() {
 	
@@ -34,24 +52,6 @@ startButton.onclick = function() {
 	startWithPolicy( $('#policy-select').val() );
 
 	updateMetricsView();
-}
-
-var updateMetricsView = function(){
-	$('#avg-system-time').html((metrics.T).toFixed(3));
-	$('#avg-system-time-1').html((metrics.T1).toFixed(3));
-	$('#avg-system-time-2').html((metrics.T2).toFixed(3));
-	$('#avg-wait-time').html((metrics.W).toFixed(3));
-	$('#avg-wait-time-1').html((metrics.W1).toFixed(3));
-	$('#avg-wait-time-2').html((metrics.W2).toFixed(3));
-	$('#avg-residual-time').html((metrics.Xr).toFixed(3));
-	$('#avg-residual-time-1').html((metrics.Xr1).toFixed(3));
-	$('#avg-residual-time-2').html((metrics.Xr2).toFixed(3));
-	$('#avg-service').html((metrics.X).toFixed(3));
-	$('#avg-service-1').html((metrics.X1).toFixed(3));
-	$('#avg-service-2').html((metrics.X2).toFixed(3));
-	$('#avg-pending-service').html((metrics.U).toFixed(3));
-	$('#avg-busy-time').html((metrics.B).toFixed(3));
-	$('#avg-clients-queue').html((metrics.N).toFixed(3));
 }
 
 
