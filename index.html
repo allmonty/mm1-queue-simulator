@@ -2,7 +2,7 @@
 
 <head>
 	<meta charset="UTF-8">
-    <title>M/M/1 Simulator</title>
+    <title>Simulador M/M/1</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 
     <!--JQUERY-->
@@ -21,7 +21,7 @@
 		<div class="menu row s12">
 			<div class="col s12">
 				<div class="card-panel teal lighten-2 col s12">
-					<h2>M/M/1 Simulator</h2>
+					<h2>Simulador M/M/1</h2>
 				</div>
 			</div>
 		</div>
@@ -46,20 +46,45 @@
 					</div>
                     <div class="input-field col s6">
 						<input id="total-time" type="text" value="100000">
-						<label for="total-time"> Simulation Time </label>
+						<label for="total-time"> Tempo de Simulação </label>
 					</div>
-                    <div class="col s6">
-                        <div class="input-field row s12">
-                            <select id="policy-select">
-                                <option value="1">FCFS Sem Prioridade</option>
-                                <option value="2">FCFS Com Prioridade</option>
-                            </select>
-                            <label>Política da Fila</label>
-                        </div>
+			    	<div class="input-field col s6">
+						<input id="sim-speed" type="text" value="1">
+						<label for="sim-speed">Velicidade da Animação (milisegundos) </label>
+					</div>
+                    <div class="input-field col s6">
+                        <select id="policy-select">
+                            <option value="1">FCFS Sem Prioridade</option>
+                            <option value="2">FCFS Com Prioridade</option>
+                        </select>
+                        <label>Política da Fila</label>
                     </div>
-                    <div class="col s6">
-                        <button class="waves-effect waves-light btn col s12" id='start-button'>Start</button>
+				    <div class="col s6">
+					    <div class="switch col s4">
+					    <label>Animação</label>
+						    <label>
+						      <input type="checkbox" id="sim-animation">
+						      <span class="lever"></span>
+						    </label>
+						</div>
+						<div class="switch col s4">
+					    <label>Usar Gráfico</label>
+						    <label>
+						      <input type="checkbox" id="use-chart">
+						      <span class="lever"></span>
+						    </label>
+						</div>
+						<!-- <div class="switch col s4">
+					    <label>Limitar Gráfico</label>
+						    <label>
+						      <input type="checkbox" id="chart-limit">
+						      <span class="lever"></span>
+						    </label>
+						</div> -->
 				    </div>
+				    <!-- <div class="col s6"> -->
+                        <button class="waves-effect waves-light btn col s12" id='start-button'>Start</button>
+				    <!-- </div> -->
 				</div>
 			</div>
 			<div class="col s6">
@@ -99,6 +124,9 @@
 						    <div class="collection-item">Número de Clientes | E[N] <a class="secondary-content" id='avg-clients-queue'>0.0</a></div>
                         </li>
                     </ul>
+                    <div class="progress col s12">
+			      		<div class="indeterminate" id="loading-bar" style="display:none;"></div>
+				  	</div>
 				</div>
 			</div>
 		</div>
@@ -108,7 +136,7 @@
 				<div class="card-panel teal lighten-2 col s12">
 					<div class="col s6"><h5>Servidor</h5></div>
 					<div class="col s6" layout-align="center center" id='server'>
-						<div class="chip row my-chip" id='server-client'>Empty</div>
+						<div class="chip row my-chip" id='server-client'>Vazio</div>
 					</div>
 				</div>
 
@@ -138,10 +166,6 @@
     <script src='Simulator/MM1Simulator.js'></script>
 
     <script src='Emulator/ChartConfig.js'></script>
-    <script src='Emulator/PoissonGenerator.js'></script>
-    <script src='Emulator/ArrivalsGenerator.js'></script>
-    <script src='Emulator/Client.js'></script>
-    <script src='Emulator/Queue.js'></script>
 
     <script src='App.js'></script>
 

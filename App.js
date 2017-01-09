@@ -1,4 +1,4 @@
-var queue = new QueueSimulator();
+//var queue = new QueueSimulator();
 
 var init = function()
 {
@@ -13,10 +13,10 @@ init();
 var startWithPolicy = function(value)
 {
 	switch(value){
-		case '1':
+		case 1:
 			startScenario1();
 			break;
-		case '2':
+		case 2:
 			startScenario2();
 		default:
 			break;
@@ -43,15 +43,24 @@ var updateMetricsView = function(){
 
 const startButton = document.querySelector('#start-button');
 startButton.onclick = function() {
-	resetSimulator();
+	$('#loading-bar').show();
 	
+	resetChart();
+	resetSimulator();
+
 	simulationTime 	= eval($('#total-time').val());
 	LAMBDA1 		= eval($('#lambda-1').val());
 	LAMBDA2 		= eval($('#lambda-2').val());
 	MU1 			= eval($('#mu-1').val());
 	MU2 			= eval($('#mu-2').val());
 
-	startWithPolicy( $('#policy-select').val() );
+	animSpeed = eval($('#sim-speed').val());
+	simAnimation = $('#sim-animation').prop('checked');
+	chartLimit = $('#chart-limit').prop('checked');
+	useChart = $('#use-chart').prop('checked');
+	policy = eval($('#policy-select').val());
+
+	startWithPolicy( policy );
 
 	updateMetricsView();
 }

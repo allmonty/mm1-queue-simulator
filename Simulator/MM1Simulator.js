@@ -1,3 +1,16 @@
+const queueADiv  = document.getElementById('fila-a');
+const queueBDiv  = document.getElementById('fila-b');
+const serverDiv  = document.getElementById('server-client');
+const loadingBar = document.getElementById('loading-bar');
+
+var setTimeoutCallBack;
+
+var animSpeed    = 1;
+var simAnimation = false;
+var chartLimit   = false;
+var useChart     = false;
+var policy       = 1;
+
 //Taxas de chegada e serviços dos clientes
 var LAMBDA1 = 1/5;
 var LAMBDA2 = 1/5;
@@ -300,7 +313,7 @@ var calculateAverages = function(){
     metrics.T1 = metrics.T1/arrayServicesA.length;
 
     //Tempo médio dos clientes tipo 1 no sistema
-	console.log("E[T1]", metrics.T1);
+	// console.log("E[T1]", metrics.T1);
 
     for(var i = 0; i< arrayServicesB.length ; i++){
      	metrics.T2 += (arrayServicesB[i]  - arrayArrivalsB[i]);
@@ -311,10 +324,10 @@ var calculateAverages = function(){
     metrics.T = metrics.T/(arrayServicesA.length + arrayResidualServicesB.length);
 
     //Tempo médio dos clientes tipo 2 no sistema
-	console.log("E[T2]", metrics.T2);
+	// console.log("E[T2]", metrics.T2);
 
 	//Tempo médio dos clientes no sistema
-	console.log("E[T]", metrics.T);
+	// console.log("E[T]", metrics.T);
 
 	metrics.W = 0;
 	metrics.W1 = 0;
@@ -334,9 +347,9 @@ var calculateAverages = function(){
     metrics.W1 = metrics.W1/(arrayServicesA.length);
     metrics.W2 = metrics.W2/(arrayServicesB.length);
 
-	console.log("E[W1]", metrics.W1);
-	console.log("E[W2]", metrics.W2);
-	console.log("E[W]", metrics.W);
+	// console.log("E[W1]", metrics.W1);
+	// console.log("E[W2]", metrics.W2);
+	// console.log("E[W]", metrics.W);
 
 	metrics.Xr = 0;
 	metrics.Xr1 = 0;
@@ -355,9 +368,9 @@ var calculateAverages = function(){
 
     metrics.Xr = metrics.Xr/(arrayResidualServicesA.length + arrayResidualServicesB.length);
 
-	console.log("E[Xr1]", metrics.Xr1);
-	console.log("E[Xr2]", metrics.Xr2);
-	console.log("E[Xr]", metrics.Xr);
+	// console.log("E[Xr1]", metrics.Xr1);
+	// console.log("E[Xr2]", metrics.Xr2);
+	// console.log("E[Xr]", metrics.Xr);
 
 	metrics.X = 0;
 	metrics.X1 = 0;
@@ -376,9 +389,9 @@ var calculateAverages = function(){
 
     metrics.X = metrics.X/(ServiceTimesA.length + ServiceTimesB.length);
 
-	console.log("E[X1]", metrics.X1);
-	console.log("E[X2]", metrics.X2);
-	console.log("E[X]", metrics.X);
+	// console.log("E[X1]", metrics.X1);
+	// console.log("E[X2]", metrics.X2);
+	// console.log("E[X]", metrics.X);
 
 	metrics.U = 0;
     for(var i = 0; i< numberOfClientsInQueue.length ; i++){
@@ -386,7 +399,7 @@ var calculateAverages = function(){
     }
     metrics.U = metrics.U/numberOfClientsInQueue.length;
 
-	console.log("E[U]", metrics.U);
+	// console.log("E[U]", metrics.U);
 
 	metrics.B = 0;
 
@@ -395,7 +408,7 @@ var calculateAverages = function(){
     }
     metrics.B = metrics.B/endOfBusyPeriod.length;
 
-	console.log("E[B]", metrics.B);
+	// console.log("E[B]", metrics.B);
 
 	metrics.N = 0;
 
@@ -404,21 +417,158 @@ var calculateAverages = function(){
     }
     metrics.N = metrics.N/numberOfClientsInQueue.length;
 
-	console.log("E[N]", metrics.N);
+	// console.log("E[N]", metrics.N);
 }
 
 var startScenario1 = function(){
-	while(totalTime < simulationTime){
-		nextEventScenario1();
-	}
-	calculateAverages();
+    if(simAnimation) {
+        if(totalTime < simulationTime){
+            nextEventScenario1();
+
+            calculateAverages();
+            updateMetricsView();
+            
+            if(useChart) {
+                insertInChart();
+                updateChartView();                
+            }
+            
+            updateServerView();
+            updateQueueView();
+            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
+
+            clearTimeout(setTimeoutCallBack);
+            setTimeout(startScenario1, animSpeed);
+        }    
+    } else {
+        while(totalTime < simulationTime){
+            nextEventScenario1();
+            
+            if(useChart) {
+                calculateAverages();
+                insertInChart();                
+            }
+        }
+
+        if(useChart) {
+            updateChartView();
+        }
+        else {
+            calculateAverages();
+        }
+
+        console.log(loadingBar);
+        $('#loading-bar').hide();
+    }	
 }
 
 var startScenario2 = function(){
-	while(totalTime < simulationTime){
-		nextEventScenario2();
-	}
-	calculateAverages();
+	if(simAnimation) {
+        if(totalTime < simulationTime){
+            nextEventScenario2();
+
+            calculateAverages();
+            updateMetricsView();
+            
+            if(useChart) {
+                insertInChart();
+                updateChartView();                
+            }
+            
+            updateServerView();
+            updateQueueView();
+
+            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
+            clearTimeout(setTimeoutCallBack);
+            setTimeoutCallBack = setTimeout(startScenario2, animSpeed);
+        }    
+    } else {
+        while(totalTime < simulationTime){
+            nextEventScenario2();
+            
+            if(useChart) {
+                calculateAverages();
+                insertInChart();                
+            }
+
+            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
+        }
+
+        if(useChart) {
+            updateChartView();
+        }
+        else {
+            calculateAverages();
+        }
+    }   
+}
+
+var updateQueueView = function(){
+
+    queueADiv.innerHTML = '';
+    queueBDiv.innerHTML = '';
+
+    for(var clientNum in queueA) {
+        if(policy == 1 && clientNum == 0) {
+            continue;
+        }
+
+        var clientDiv = document.createElement('div');
+        clientDiv.className += " chip row my-chip";
+
+        var img = document.createElement('img');
+        var clientClass = 0;
+        if(queueA[clientNum] == CLIENT_TYPE_0){
+            img.src = "./images/number1.png";
+            clientClass = 1;            
+        }
+
+        if(queueA[clientNum] == CLIENT_TYPE_1){
+            img.src = "./images/number2.png";
+            clientClass = 2;            
+        }
+        img.alt = "Contact Person";
+        clientDiv.append(img);
+
+        clientDiv.append("Classe " + clientClass);
+        queueADiv.append(clientDiv);
+    }
+
+    for(var clientNum in queueB) {
+        var clientDiv = document.createElement('div');
+        clientDiv.className += " chip row my-chip";
+
+        var img = document.createElement('img');
+        if(queueB[clientNum] == CLIENT_TYPE_0)
+            img.src = "./images/number1.png";
+        if(queueB[clientNum] == CLIENT_TYPE_1)
+            img.src = "./images/number2.png";
+        img.alt = "Contact Person";
+        clientDiv.append(img);
+
+        clientDiv.append("Classe 2");
+        queueBDiv.append(clientDiv);
+    }
+}
+
+var updateServerView = function(){
+    serverDiv.innerHTML = '';
+
+    if(policy == 1 && queueA.length > 0){
+        var img = document.createElement('img');
+        if(queueA[0] == CLIENT_TYPE_0)
+            img.src = "./images/number1.png";
+        if(queueA[0] == CLIENT_TYPE_1)
+            img.src = "./images/number2.png";
+        img.alt = "Contact Person";
+        serverDiv.append(img);
+
+        serverDiv.append("Classe "+(queueA[0]+1));
+    }
+    else
+    {
+        serverDiv.append("Vazio");
+    }
 }
 
 var resetSimulator = function() {
