@@ -420,3 +420,41 @@ var startScenario2 = function(){
 	}
 	calculateAverages();
 }
+
+var resetSimulator = function() {
+    nextClient      = 0;
+    currentClient   = 0;
+    arrivalTime     = 0;
+    serviceTime     = 0;
+    totalTime       = 0;
+    arrayArrivals   = [];
+    arrayServices   = [];
+    arrayArrivalsA  = [];
+    arrayServicesA  = [];
+    arrayArrivalsB  = [];
+    arrayServicesB  = [];
+    arrayResidualServicesA  = [];
+    arrayResidualServicesB  = [];
+    queueA = [];
+    queueB = [];
+    ServiceTimesA = [];
+    ServiceTimesB = [];
+    startOfBusyPeriod   = [];
+    endOfBusyPeriod     = [];
+    numberOfClientsInQueue  = [];
+    metrics.T  = 0.0;
+    metrics.T1 = 0.0;
+    metrics.T2 = 0.0;
+    metrics.W = 0.0;
+    metrics.W1 = 0.0;
+    metrics.W2 = 0.0;
+    metrics.Xr = 0.0;
+    metrics.Xr1 = 0.0;
+    metrics.Xr2 = 0.0;
+    metrics.X = 0.0;
+    metrics.X1 = 0.0;
+    metrics.X2 = 0.0;
+    metrics.U = 0.0;
+    metrics.B = 0.0;
+    metrics.N = 0.0;
+}

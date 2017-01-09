@@ -43,6 +43,7 @@ var updateMetricsView = function(){
 
 const startButton = document.querySelector('#start-button');
 startButton.onclick = function() {
+	resetSimulator();
 	
 	simulationTime 	= eval($('#total-time').val());
 	LAMBDA1 		= eval($('#lambda-1').val());
