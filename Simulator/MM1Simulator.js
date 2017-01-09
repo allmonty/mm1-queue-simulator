@@ -14,7 +14,7 @@ var serviceTime 	= 0;
 var totalTime 		= 0;
 
 //Tempo total que da simulação 
-const simulationTime = 100000;
+var simulationTime = 100000;
 
 const CLIENT_TYPE_0 = 0;	
 const CLIENT_TYPE_1 = 1;	
