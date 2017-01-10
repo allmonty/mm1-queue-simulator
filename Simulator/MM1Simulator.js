@@ -431,7 +431,6 @@ var startScenario1 = function(){
             
             updateServerView();
             updateQueueView();
-            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
 
             clearTimeout(setTimeoutCallBack);
             setTimeout(startScenario1, animSpeed);
@@ -452,9 +451,6 @@ var startScenario1 = function(){
         else {
             calculateAverages();
         }
-
-        console.log(loadingBar);
-        $('#loading-bar').hide();
     }	
 }
 
@@ -474,7 +470,6 @@ var startScenario2 = function(){
             updateServerView();
             updateQueueView();
 
-            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
             clearTimeout(setTimeoutCallBack);
             setTimeoutCallBack = setTimeout(startScenario2, animSpeed);
         }    
@@ -486,8 +481,6 @@ var startScenario2 = function(){
                 calculateAverages();
                 insertInChart();                
             }
-
-            loadingBar.style.width = (totalTime * 100 / simulationTime) + '%';
         }
 
         if(useChart) {
@@ -518,7 +511,6 @@ var updateQueueView = function(){
             img.src = "./images/number1.png";
             clientClass = 1;            
         }
-
         if(queueA[clientNum] == CLIENT_TYPE_1){
             img.src = "./images/number2.png";
             clientClass = 2;            

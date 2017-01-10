@@ -10,18 +10,6 @@ var init = function()
 }
 init();
 
-var startWithPolicy = function(value)
-{
-	switch(value){
-		case 1:
-			startScenario1();
-			break;
-		case 2:
-			startScenario2();
-		default:
-			break;
-	}
-}
 
 var updateMetricsView = function(){
 	$('#avg-system-time'	).html(	(metrics.T   || 0).toFixed(3) );
@@ -42,9 +30,19 @@ var updateMetricsView = function(){
 }
 
 const startButton = document.querySelector('#start-button');
+var startWithPolicy = function(value)
+{
+	switch(value){
+		case 1:
+			startScenario1();
+			break;
+		case 2:
+			startScenario2();
+		default:
+			break;
+	}
+}
 startButton.onclick = function() {
-	$('#loading-bar').show();
-	
 	resetChart();
 	resetSimulator();
 
@@ -59,6 +57,7 @@ startButton.onclick = function() {
 	chartLimit = $('#chart-limit').prop('checked');
 	useChart = $('#use-chart').prop('checked');
 	policy = eval($('#policy-select').val());
+
 
 	startWithPolicy( policy );
 
