@@ -135,10 +135,10 @@ var nextEventScenario1 = function(){
 
     	if (nextClient == CLIENT_TYPE_0) {
     		arrayArrivalsA.push(totalTime + nextArrival);
-    		arrayResidualServicesA.push(0);
+    		//arrayResidualServicesA.push(0);
     	}else{
 			arrayArrivalsB.push(totalTime + nextArrival);
-			arrayResidualServicesB.push(0);
+			//arrayResidualServicesB.push(0);
     	}
 
     	if (nextClientType() == CLIENT_TYPE_0) {
@@ -239,11 +239,11 @@ var nextEventScenario2 = function(){
     	if(nextClient == CLIENT_TYPE_0){
 	    	queueA.push(nextClient);
 	    	arrayArrivalsA.push(totalTime + nextArrival);
-	    	arrayResidualServicesA.push(0);
+	    	//arrayResidualServicesA.push(0);
     	}else{
 	    	queueB.push(nextClient);
 	    	arrayArrivalsB.push(totalTime + nextArrival);
-	    	arrayResidualServicesB.push(0);
+	    	//arrayResidualServicesB.push(0);
     	}
 
     	if (nextClientType() == CLIENT_TYPE_0) {
