@@ -135,10 +135,8 @@ var nextEventScenario1 = function(){
 
     	if (nextClient == CLIENT_TYPE_0) {
     		arrayArrivalsA.push(totalTime + nextArrival);
-    		//arrayResidualServicesA.push(0);
     	}else{
 			arrayArrivalsB.push(totalTime + nextArrival);
-			//arrayResidualServicesB.push(0);
     	}
 
     	if (nextClientType() == CLIENT_TYPE_0) {
@@ -239,11 +237,9 @@ var nextEventScenario2 = function(){
     	if(nextClient == CLIENT_TYPE_0){
 	    	queueA.push(nextClient);
 	    	arrayArrivalsA.push(totalTime + nextArrival);
-	    	//arrayResidualServicesA.push(0);
     	}else{
 	    	queueB.push(nextClient);
 	    	arrayArrivalsB.push(totalTime + nextArrival);
-	    	//arrayResidualServicesB.push(0);
     	}
 
     	if (nextClientType() == CLIENT_TYPE_0) {
@@ -564,6 +560,17 @@ var updateServerView = function(){
         serverDiv.append(img);
 
         serverDiv.append("Classe "+(queueA[0]+1));
+    }
+	else if(policy == 2){
+        var img = document.createElement('img');
+        if(currentClient == CLIENT_TYPE_0)
+            img.src = "./images/number1.png";
+        if(currentClient == CLIENT_TYPE_1)
+            img.src = "./images/number2.png";
+        img.alt = "Contact Person";
+        serverDiv.append(img);
+
+        serverDiv.append("Classe "+(currentClient+1));
     }
     else
     {
