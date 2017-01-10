@@ -1,0 +1,35 @@
+body {
+    background-color: #eceff1;
+}
+
+#filas {
+	background-color: lavenderblush;
+    display: flex;
+    flex-direction: row;
+    height: 300px;
+    overflow-y: auto;
+}
+
+#fila-a {
+    height: 50%;
+    overflow-y: auto;
+}
+
+#fila-b {
+    height: 50%;
+    overflow-y: auto;
+}
+
+.my-chip {
+    display: flex !important;
+    margin: 0.82rem 0 0.656rem 0 !important;
+}
+
+.chartDiv { 
+  width: 100%;
+  height: 75%;
+}
+
+.simulator-container {
+    padding: 1%;
+}

@@ -1,11 +1,172 @@
 <html>
 
 <head>
+	<meta charset="UTF-8">
+    <title>Simulador M/M/1</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+    <!--JQUERY-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--MATERIAL ICONS-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--MATERIAL DESIGN-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <!--CHARTJS-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js'></script>
 </head>
 
 <body>
+	<div class="simulator-container">
+		<div class="menu row s12">
+			<div class="col s12">
+				<div class="card-panel teal lighten-2 col s12">
+					<h2>Simulador M/M/1</h2>
+				</div>
+			</div>
+		</div>
+		<div class="menu row s12">
+			<div class="col s6">
+				<div class="row s12">
+					<div class="input-field col s6">
+						<input id="lambda-1" type="text" value="1/12">
+						<label for="lambda-1"> &lambda;1 </label>
+					</div>
+					<div class="input-field col s6">
+						<input id="lambda-2" type="text" value="1/12">
+						<label for="lambda-2"> &lambda;2 </label>
+					</div>
+					<div class="input-field col s6">
+						<input id="mu-1" type="text" value="1/5">
+						<label for="mu-1"> &mu;1 </label>
+					</div>
+					<div class="input-field col s6">
+						<input id="mu-2" type="text" value="1/5">
+						<label for="mu-2"> &mu;2 </label>
+					</div>
+                    <div class="input-field col s6">
+						<input id="total-time" type="text" value="100000">
+						<label for="total-time"> Tempo de Simulação </label>
+					</div>
+			    	<div class="input-field col s6">
+						<input id="sim-speed" type="text" value="1">
+						<label for="sim-speed">Velicidade da Animação (milisegundos) </label>
+					</div>
+                    <div class="input-field col s6">
+                        <select id="policy-select">
+                            <option value="1">FCFS Sem Prioridade</option>
+                            <option value="2">FCFS Com Prioridade</option>
+                        </select>
+                        <label>Política da Fila</label>
+                    </div>
+				    <div class="col s6">
+					    <div class="switch col s4">
+					    <label>Animação</label>
+						    <label>
+						      <input type="checkbox" id="sim-animation">
+						      <span class="lever"></span>
+						    </label>
+						</div>
+						<div class="switch col s4">
+					    <label>Usar Gráfico</label>
+						    <label>
+						      <input type="checkbox" id="use-chart">
+						      <span class="lever"></span>
+						    </label>
+						</div>
+						<!-- <div class="switch col s4">
+					    <label>Limitar Gráfico</label>
+						    <label>
+						      <input type="checkbox" id="chart-limit">
+						      <span class="lever"></span>
+						    </label>
+						</div> -->
+				    </div>
+				    <!-- <div class="col s6"> -->
+                        <button class="waves-effect waves-light btn col s12" id='start-button'>Start</button>
+				    <!-- </div> -->
+				</div>
+			</div>
+			<div class="col s6">
+				<div class="row s12">
+					<ul class="collection collapsible" data-collapsible="accordion">
+                        <li>
+						    <div class="collection-item collapsible-header">Tempo no Sistema | E[T] <a class="secondary-content" id='avg-system-time'>0.0</a></div>
+						    <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Tempo no Sistema | E[T1] <a class="secondary-content" id='avg-system-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo no Sistema | E[T2] <a class="secondary-content" id='avg-system-time-2'>0.0</a></div>
+						    </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Tempo na Fila | E[W] <a class="secondary-content" id='avg-wait-time'>0.0</a></div>
+                            <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Tempo na Fila | E[W1] <a class="secondary-content" id='avg-wait-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Tempo na Fila | E[W2] <a class="secondary-content" id='avg-wait-time-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Serviço Residual | E[Xr] <a class="secondary-content" id='avg-residual-time'>0.0</a></div>
+                            <div class="collapsible-body">
+						        <div class="collection-item teal lighten-5">Serviço Residual | E[Xr1] <a class="secondary-content" id='avg-residual-time-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Serviço Residual | E[Xr2] <a class="secondary-content" id='avg-residual-time-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item collapsible-header">Serviço Médio | E[X] <a class="secondary-content" id='avg-service'>0.0</a></div>
+                            <div class="collapsible-body">
+                                <div class="collection-item teal lighten-5">Serviço Médio | E[X1] <a class="secondary-content" id='avg-service-1'>0.0</a></div>
+						        <div class="collection-item teal lighten-5">Serviço Médio | E[X2] <a class="secondary-content" id='avg-service-2'>0.0</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collection-item">Trabalho Pendente | E[U] <a class="secondary-content" id='avg-pending-service'>0.0</a></div>
+						    <div class="collection-item">Período Ocupado | E[B] <a class="secondary-content" id='avg-busy-time'>0.0</a></div>
+						    <div class="collection-item">Número de Clientes | E[N] <a class="secondary-content" id='avg-clients-queue'>0.0</a></div>
+                        </li>
+                    </ul>
+                    <div class="progress col s12">
+			      		<div class="indeterminate" id="loading-bar" style="visibility:hidden;"></div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row s12">
+			<div class="col s6">
+				<div class="card-panel teal lighten-2 col s12">
+					<div class="col s6"><h5>Servidor</h5></div>
+					<div class="col s6" layout-align="center center" id='server'>
+						<div class="chip row my-chip" id='server-client'>Vazio</div>
+					</div>
+				</div>
+
+				<div class="card-panel teal lighten-3 col s6">
+					<div class="col s12"><h5>Fila 1</h5></div>
+				</div>
+				<div class="card-panel teal lighten-3 col s6">
+					<div class="col s6"><h5>Fila 2</h5></div>
+				</div>
+
+				<div class="card-panel teal lighten-2 col s6">
+					<div id='fila-a'></div>
+				</div>
+				<div class="card-panel teal lighten-2 col s6">
+					<div id='fila-b'></div>
+				</div>
+			</div>
+			<div class="col s6">
+				<div class='chartDiv row'>
+					<canvas id="myChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
-<script src='source.js'></script>
+    <script src='Simulator/MM1Simulator.js'></script>
+
+    <script src='Emulator/ChartConfig.js'></script>
+
+    <script src='App.js'></script>
 
 </html>
