@@ -349,7 +349,7 @@ var calculateAverages = function(){
     metrics.T += metrics.T2;
     metrics.T2 = metrics.T2/arrayServicesB.length;
 
-    metrics.T = metrics.T/(arrayServicesA.length + arrayResidualServicesB.length);
+    metrics.T = metrics.T/(arrayServicesA.length + arrayServicesB.length);
 
     //Tempo médio dos clientes tipo 2 no sistema
 	// console.log("E[T2]", metrics.T2);
