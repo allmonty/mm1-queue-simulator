@@ -33,3 +33,7 @@ body {
 .simulator-container {
     padding: 1%;
 }
+
+#loading-bar {
+    // visibility: hidden;
+}

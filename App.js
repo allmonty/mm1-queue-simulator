@@ -4,6 +4,9 @@ var init = function()
 {
 	//Start the policy selection menu with JQuery
 	$(document).ready(function() {
+		// $("#loading-bar").hide();
+		loadingBar.style.display = 'none';
+
     	$('select').material_select();
 		$('.collapsible').collapsible();
   	});
@@ -58,8 +61,19 @@ startButton.onclick = function() {
 	useChart = $('#use-chart').prop('checked');
 	policy = eval($('#policy-select').val());
 
+	for(var i = 0; i < 100; i++)
+	{
+		startWithPolicy( policy );
+		computeTotalMetrics();
+		resetSimulator();
+		// console.log("SOMATORIO: " , metricsSum);
+	}
 
-	startWithPolicy( policy );
+	getAverages(100);
+
+	console.log("AVG:", metricsAvg);
+	console.log("MIN:", metricsMin);
+	console.log("MAX:", metricsMax);
 
 	updateMetricsView();
 }

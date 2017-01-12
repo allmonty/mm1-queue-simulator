@@ -58,6 +58,8 @@ var endOfBusyPeriod 	= [];
 
 //Array que guarda quantas pessoas se encontram no sistema a cada chegada
 var numberOfClientsInQueue 	= [];
+var numberOfClientsClassAInQueue = [];
+var numberOfClientsClassBInQueue = [];
 
 var metrics = {
 	T : 0.0,
@@ -74,7 +76,11 @@ var metrics = {
 	X2: 0.0,
 	U: 0.0,
 	B: 0.0,
-	N: 0.0
+	N: 0.0,
+    RHO: 0.0,
+    Nq: 0.0,
+    Nq1: 0.0,
+    Nq2: 0.0
 }
 
 var nextClientType = function(){
@@ -131,6 +137,9 @@ var nextEventScenario1 = function(){
     	}
     	startOfBusyPeriod.push(totalTime + nextArrival);
     	numberOfClientsInQueue.push(0);
+        numberOfClientsClassAInQueue.push(0);
+        numberOfClientsClassBInQueue.push(0);
+
     	queueA.push(nextClient);
 
     	if (nextClient == CLIENT_TYPE_0) {
@@ -146,13 +155,24 @@ var nextEventScenario1 = function(){
     	}else{
     		arrivalTime = nextPoisson(LAMBDA1 + LAMBDA2);
     		totalTime += nextArrival;
-    		nextClient = CLIENT_TYPE_0; 
+    		nextClient = CLIENT_TYPE_1; 
     	}
 
     }else{
     	if (nextArrival < nextService) {
 
     		numberOfClientsInQueue.push(queueA.length);
+
+            var numberOfClientType0 = 0;
+            for(var i = 1; i < queueA.length ; i++){
+                if (queueA[i] == CLIENT_TYPE_0) {
+                    numberOfClientType0++;
+                }
+            }
+
+            numberOfClientsClassAInQueue.push(numberOfClientType0);
+            numberOfClientsClassBInQueue.push((queueA.length - 1) - numberOfClientType0);
+
     		queueA.push(nextClient);
 
     		if (nextClient == CLIENT_TYPE_0) {
@@ -234,6 +254,9 @@ var nextEventScenario2 = function(){
     	startOfBusyPeriod.push(totalTime + nextArrival);
 
     	numberOfClientsInQueue.push(0);
+        numberOfClientsClassAInQueue.push(0);
+        numberOfClientsClassBInQueue.push(0);
+
     	if(nextClient == CLIENT_TYPE_0){
 	    	queueA.push(nextClient);
 	    	arrayArrivalsA.push(totalTime + nextArrival);
@@ -256,6 +279,15 @@ var nextEventScenario2 = function(){
     	if (nextArrival < nextService) {
 
     		numberOfClientsInQueue.push(queueA.length + queueB.length);
+
+            if (currentClient == CLIENT_TYPE_0) {
+                numberOfClientsClassAInQueue.push(queueA.length - 1);
+                numberOfClientsClassBInQueue.push(queueB.length);
+            }else{
+                numberOfClientsClassAInQueue.push(queueA.length);
+                numberOfClientsClassBInQueue.push(queueB.length - 1);
+            }
+
 			if(nextClient == CLIENT_TYPE_0){
 	    		queueA.push(nextClient);
     		    arrayArrivalsA.push(totalTime + nextArrival);
@@ -398,11 +430,16 @@ var calculateAverages = function(){
 	// console.log("E[U]", metrics.U);
 
 	metrics.B = 0;
+    metrics.RHO = 0;
 
 	for(var i = 0; i< endOfBusyPeriod.length ; i++){
      	metrics.B += endOfBusyPeriod[i] - startOfBusyPeriod[i];
     }
+    metrics.RHO = metrics.B;
     metrics.B = metrics.B/endOfBusyPeriod.length;
+
+    metrics.RHO = metrics.RHO/simulationTime;
+    // console.log("rho: " + metrics.RHO);
 
 	// console.log("E[B]", metrics.B);
 
@@ -413,10 +450,24 @@ var calculateAverages = function(){
     }
     metrics.N = metrics.N/numberOfClientsInQueue.length;
 
-	// console.log("E[N]", metrics.N);
+    metrics.Nq1 = 0;
+    metrics.Nq2 = 0;
+
+    for(var i = 0 ; i < numberOfClientsClassAInQueue.length ; i++){
+        metrics.Nq1 += numberOfClientsClassAInQueue[i];
+    }
+    metrics.Nq1 = metrics.Nq1/numberOfClientsClassAInQueue.length;
+
+    for(var i = 0 ; i < numberOfClientsClassBInQueue.length ; i++){
+        metrics.Nq2 += numberOfClientsClassBInQueue[i];
+    }
+    metrics.Nq2 = metrics.Nq2/numberOfClientsClassBInQueue.length;
+     console.log("E[N1]", metrics.Nq1);
+     console.log("E[N2]", metrics.Nq2);
 }
 
 var startScenario1 = function(){
+    console.log("CENARIO 1");
     if(simAnimation) {
         if(totalTime < simulationTime){
             nextEventScenario1();
@@ -451,10 +502,11 @@ var startScenario1 = function(){
         else {
             calculateAverages();
         }
-    }	
+    }
 }
 
 var startScenario2 = function(){
+    console.log("CENARIO 2");
 	if(simAnimation) {
         if(totalTime < simulationTime){
             nextEventScenario2();
@@ -489,7 +541,7 @@ var startScenario2 = function(){
         else {
             calculateAverages();
         }
-    }   
+    }
 }
 
 var updateQueueView = function(){
@@ -606,4 +658,6 @@ var resetSimulator = function() {
     metrics.U = 0.0;
     metrics.B = 0.0;
     metrics.N = 0.0;
+    metrics.Nq1 = 0.0;
+    metrics.Nq2 = 0.0;
 }
