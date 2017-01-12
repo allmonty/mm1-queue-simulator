@@ -61,19 +61,19 @@ startButton.onclick = function() {
 	useChart = $('#use-chart').prop('checked');
 	policy = eval($('#policy-select').val());
 
-	for(var i = 0; i < 100; i++)
-	{
+	// codigo para rodar a simulação 100x e calcular a média das métricas e intervalo de confiança
+	// resetStandDeviation();
+	// for(var i = 0; i < 100; i++)
+	// {
 		startWithPolicy( policy );
 		computeTotalMetrics();
-		resetSimulator();
-		// console.log("SOMATORIO: " , metricsSum);
-	}
+		// resetSimulator();
+		
+	// }
 
-	getAverages(100);
-
-	console.log("AVG:", metricsAvg);
-	console.log("MIN:", metricsMin);
-	console.log("MAX:", metricsMax);
+	// getAverages(100);	
+	// computeStandardDeviation(100);
+	// resetCalculations();	
 
 	updateMetricsView();
 }

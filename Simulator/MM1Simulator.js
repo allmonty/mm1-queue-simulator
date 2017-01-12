@@ -462,12 +462,12 @@ var calculateAverages = function(){
         metrics.Nq2 += numberOfClientsClassBInQueue[i];
     }
     metrics.Nq2 = metrics.Nq2/numberOfClientsClassBInQueue.length;
-     console.log("E[N1]", metrics.Nq1);
-     console.log("E[N2]", metrics.Nq2);
+     // console.log("E[N1]", metrics.Nq1);
+     // console.log("E[N2]", metrics.Nq2);
 }
 
 var startScenario1 = function(){
-    console.log("CENARIO 1");
+    console.log("loop");
     if(simAnimation) {
         if(totalTime < simulationTime){
             nextEventScenario1();
